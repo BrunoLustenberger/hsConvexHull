@@ -23,14 +23,9 @@ module Main (
     ) where
 
 import System.IO (FilePath, readFile, writeFile)
-import Data.Char (toUpper)
 import System.Environment (getArgs)
 
--- The actual computation, input and output are strings.
--- From this function on "inwards" everything is pure.
--- Typically, this function would be imported from a pure module.
-processInputString :: String -> String
-processInputString s = map toUpper s
+import ConvexHull (processInputString)
 
 -- |Reads the entire contents of a an input file into a string,
 --  processes that string and writes the entire result as a string

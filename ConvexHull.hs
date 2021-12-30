@@ -154,3 +154,43 @@ lengthOfClosedPath :: [Pt] -> Double
 lengthOfClosedPath [] = 0
 lengthOfClosedPath [p] = 0
 lengthOfClosedPath ps = lengthOfPath ps + norm (vrFromTo (last ps) (head ps))
+
+{- 5. Helper definitions for file IO -}
+
+{-  Input and output files must be text and have the following format:
+    First line: the number of points
+    Following lines: The points. 
+        Each line contains 2 strings, corresponding to x- and y-coordinate.
+    Exammple: "3\n12 1\n 2 2\n -1 5"
+    Note: No check, wheter number of points in first line is correct.
+-}
+
+stringListToIntlist :: [String] -> [Int]
+stringListToIntlist = map (read :: String -> Int)
+
+stringToIntListList :: String -> [[Int]]
+stringToIntListList =  map stringListToIntlist . map words . lines
+-- the following is correct, too:
+-- stringToIntListList s =   map stringListToIntlist (map words (lines s))
+-- stringToIntListList s =  (map stringListToIntlist . map words . lines) s
+-- stringToIntListList s =  map stringListToIntlist . map words . lines $ s
+
+intListListToPtList :: [[Int]] -> [Pt]
+intListListToPtList = map (\ [x,y] -> Pt x y) . tail --length ignored
+
+stringToPtList :: String -> [Pt]
+stringToPtList = intListListToPtList . stringToIntListList
+
+ptToString :: Pt -> String
+ptToString (Pt x y) = show x ++ " " ++ show y
+
+ptListToString :: [Pt] -> String
+ptListToString pts = 
+    unlines ( len : map ptToString pts ) where
+        len = show $ length pts
+
+-- |Apply convexHull function on input given as string
+--  and return result as string 
+processInputString :: String -> String
+processInputString = ptListToString . convexHull . stringToPtList
+                     
