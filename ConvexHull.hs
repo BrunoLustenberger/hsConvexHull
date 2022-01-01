@@ -6,11 +6,14 @@ Exercise 12 of Chapter 3 of http://book.realworldhaskell.org/
 The "Graham Scan" algorithm is used. 
 See https://en.wikipedia.org/wiki/Graham_scan
 -}
-{-
+{- todo:
 module ConvexHull (
+      convexHull
+    , processInputString
+      -- following exports are for tests only
       Pt(..)
     , Vr(..)
-    , convexHull
+    , etc.....
     ) where
 -}
 
@@ -157,13 +160,7 @@ lengthOfClosedPath ps = lengthOfPath ps + norm (vrFromTo (last ps) (head ps))
 
 {- 5. Helper definitions for file IO -}
 
-{-  Input and output files must be text and have the following format:
-    First line: the number of points
-    Following lines: The points. 
-        Each line contains 2 strings, corresponding to x- and y-coordinate.
-    Exammple: "3\n12 1\n 2 2\n -1 5"
-    Note: No check, wheter number of points in first line is correct.
--}
+-- Note: No check, whether number of points in first line is correct.
 
 stringListToIntlist :: [String] -> [Int]
 stringListToIntlist = map (read :: String -> Int)

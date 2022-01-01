@@ -56,9 +56,13 @@ p52 = Pt 5 2
 
 pm12  = Pt (-1) 2
 pm24  = Pt (-2) 4
+pm1m1  = Pt (-1) (-1)
 pm2m1  = Pt (-2) (-1)
 pm32  = Pt (-3) 2
 pm3m2  = Pt (-3) (-2)
+pm33  = Pt (-3) 3
+pm21  = Pt (-2) 1
+
 
 {- Trigonometry -}
 
@@ -201,6 +205,9 @@ ch7'    = TestCase $ assertEqual "ch7'"
             (convexHull [p20,p21,p22,p00,p01,p02,p10,p11,p12,  
                          p20,p00,p11,p21,p02]) 
             [p00,p20,p22,p02]
+ch7''   = TestCase $ assertEqual "ch7''"   
+            (convexHull [p00,p10,p20,p12,pm1m1,pm21,pm33]) 
+            [pm1m1,p20,p12,pm33]
 ch8     = TestCase $ assertEqual "ch8"    
             (convexHull [p20,p21,p22,p00,p01,p02,p03,p10,p11,p12])
             [p00,p20,p22,p03]

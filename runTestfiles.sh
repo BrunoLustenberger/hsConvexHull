@@ -9,6 +9,7 @@
 ./main "testfiles/tc6.txt" "testfiles/tc6.out.txt"
 ./main "testfiles/tc7.txt" "testfiles/tc7.out.txt"
 ./main "testfiles/tc7s.txt" "testfiles/tc7s.out.txt"
+./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt"
 ./main "testfiles/tc8.txt" "testfiles/tc8.out.txt"
 ./main "testfiles/tc8s.txt" "testfiles/tc8s.out.txt"
 ./main "testfiles/tc_cw2014.txt" "testfiles/tc_cw2014.out.txt"

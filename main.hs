@@ -1,21 +1,11 @@
 
 {- |
 Module : Main
-Description : Simple example of IO with files containing strings.
+Description : Compute convex hull, input/output is given by files.
 Copyright : (c) 2021 Bruno M.S. Lustenberger
-You can use this module in 2 ways:
-1.  Load it in ghci and call the function processFiles, e.g.
-        ghci>processFiles "myInput.txt" "myOutput.txt"
-2.  Compile this module using ghc and call the generated exe program, e.g.
-        $ ghc main
-        $ main "myInput.txt" "output.txt"
-    Note: check with 
-        $ which
-    where the command main points to. It could point to some other location,
-    in this case use ./main.
-        $ which main                                                
-        /Users/Ls/.local/bin/main
-        $ ./main "myInput.txt" "myOutput.txt"
+Reads a point list from an input file computes its convex hull
+and stores it as a point list in an output file.
+See readme for the syntax of a point list.
 -}
 module Main (
       processFiles
@@ -27,9 +17,7 @@ import System.Environment (getArgs)
 
 import ConvexHull (processInputString)
 
--- |Reads the entire contents of a an input file into a string,
---  processes that string and writes the entire result as a string
---  to an output file. The files are given by their path.
+-- |Process the files given by their path.
 processFiles :: FilePath -> FilePath -> IO ()
 processFiles inFilePath outFilePath = do
     inStr <- readFile inFilePath
