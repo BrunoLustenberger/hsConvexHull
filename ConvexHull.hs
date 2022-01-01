@@ -21,8 +21,6 @@ module ConvexHull where
 
 import Data.List (sortBy, minimumBy)
 import Data.Ratio   -- to avoid comparison of doubles
-import Test.QuickCheck
-import Test.HUnit
 
 {- 0. Helper definitions from trigonometry -}
 

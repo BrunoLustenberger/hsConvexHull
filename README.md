@@ -11,7 +11,7 @@ The text of the output file will obey this syntax, too.
 
 The folder testfiles contains a few samples.
 
-Exammple: 
+Example: 
 ```
 $ ./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt"
 
