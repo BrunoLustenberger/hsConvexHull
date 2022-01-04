@@ -28,7 +28,8 @@ module Graph (
 import System.IO (FilePath, readFile, writeFile)
 import System.Environment (getArgs)
 import Graphics.Gnuplot.Simple
-import ConvexHull -- todo: instead Utils
+
+import Utils (stringToIntPairList)
 
 setStyle = PlotStyle 
     { plotType = Points,

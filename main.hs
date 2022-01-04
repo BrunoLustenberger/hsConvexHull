@@ -15,13 +15,19 @@ module Main (
 import System.IO (FilePath, readFile, writeFile)
 import System.Environment (getArgs)
 
-import ConvexHull (processInputString)
+import ConvexHull (convexHull)
+import Utils (ptListToString, stringToPtList)
+
+-- Apply convexHull function on input given as string
+-- and return result as string 
+processStrings :: String -> String
+processStrings = ptListToString . convexHull . stringToPtList
 
 -- |Process the files given by their path.
 processFiles :: FilePath -> FilePath -> IO ()
 processFiles inFilePath outFilePath = do
     inStr <- readFile inFilePath
-    let outStr = processInputString inStr
+    let outStr = processStrings inStr
     writeFile outFilePath outStr
 
 -- |Main program. The paths of input and output files are 
