@@ -176,6 +176,14 @@ intListListToPtList = map (\ [x,y] -> Pt x y) . tail --length ignored
 stringToPtList :: String -> [Pt]
 stringToPtList = intListListToPtList . stringToIntListList
 
+type IntPair = (Int,Int)
+
+intListListToIntPairList :: [[Int]] -> [IntPair]
+intListListToIntPairList = map (\ [x,y] -> (x,y)) . tail --length ignored
+
+stringToIntPairList :: String -> [IntPair]
+stringToIntPairList = intListListToIntPairList . stringToIntListList
+
 ptToString :: Pt -> String
 ptToString (Pt x y) = show x ++ " " ++ show y
 

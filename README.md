@@ -5,7 +5,8 @@ written to a text file.
 
 The text of the input file must obey the "point list syntax":
 * First line: the number of points
-* Following lines: The points. Each line contains 2 strings, corresponding to x- and y-coordinate.
+* Following lines: The points. Each line contains 2 strings, corresponding to x- and y-coordinate. The coordinates must be integers.
+todo: drop first line?
 
 The text of the output file will obey this syntax, too.
 
@@ -25,9 +26,11 @@ $ ./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt"
     -2  1
     -3 3
 ```
+todo: include graph
 
 Note: 
 1. Only points with integer coordinates are accepted. This is no restriction of generality, as any finite set of fractional numbers has a lcm of the denominators.
 2. The order of the points is irrelevant in the input file, but relevant (up to a cyclic shift) in the output file.
+3. todo: minimal, obiges bsp graph nehmen
 
 
