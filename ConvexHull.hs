@@ -6,36 +6,42 @@ Exercise 12 of Chapter 3 of http://book.realworldhaskell.org/
 The "Graham Scan" algorithm is used. 
 See https://en.wikipedia.org/wiki/Graham_scan
 -}
-{- todo:
 module ConvexHull (
       convexHull
-    , processInputString
-      -- following exports are for tests only
-      Pt(..)
+    , Pt(..)
     , Vr(..)
-    , etc.....
+    , vrFromTo
+      -- following exports are for tests only
+    , crossp2d
+    , normSqr
+    , leftLowestPoint
+    , pseudoAngleWithX
+    , compareVectors
+    , sortPoints
+    , Direction (..)
+    , directionOf
+    , extendHull
+    , convexHullOfSorted
     ) where
--}
-
-module ConvexHull where
 
 import Data.List (sortBy, minimumBy)
-import Data.Ratio   -- to avoid comparison of doubles
+import Data.Ratio (Ratio, (%))  -- to avoid comparison of doubles
 
 {- 0. Helper definitions from trigonometry -}
 
--- Point in the x,y-plane
+-- |Point in the x,y-plane
 data Pt = Pt Int Int deriving (Show, Eq)
 
--- Vector in the x,y-plane
+-- |Vector in the x,y-plane
 data Vr = Vr Int Int deriving (Show)
 
--- Vector from point p1 to point p2
+-- |Vector from point p1 to point p2
 vrFromTo :: Pt -> Pt -> Vr
 vrFromTo (Pt x1 y1) (Pt x2 y2) = Vr (x2-x1) (y2-y1)
 
 -- crossproduct of two 2-dimensional vectors: 
--- the 3rd component of the crossproduct of the corresponding 3-dimensional vectors
+-- the 3rd component of the crossproduct of the corresponding 
+-- 3-dimensional vectors
 crossp2d :: Vr -> Vr -> Int
 crossp2d (Vr x1 y1) (Vr x2 y2) = x1*y2 - y1*x2
 
@@ -50,6 +56,7 @@ normSqr (Vr x y) = x^2 + y^2
 -}
 -- I could sort the list using a lexicographic order comparing first y then x,
 -- but here I try an alogrithm with linear time.
+-- todo: use minimumBy instead
 
 leftLowestPoint :: [Pt] -> Pt
 leftLowestPoint []     = error "at least 1 point needed"
@@ -65,32 +72,40 @@ leftLowestPoint (p:ps) =
    to the vector going from the leftLowestPoint to P. 
 -}
 
--- Instead of angle, its cosine suffices. To avoid doubles, I take the square and the signum of x.
--- Note: a vector and the vector mirrored at the x-axis get the same value, but that doesn't matter, here.
+-- Instead of angle, its cosine suffices. To avoid doubles, I take the 
+-- square and the signum of x.
+-- Note: a vector and the vector mirrored at the x-axis get the same value, 
+-- but that doesn't matter, here.
 pseudoAngleWithX :: Vr -> Ratio Int
 pseudoAngleWithX (Vr 0 0) = 1  -- see note
 pseudoAngleWithX (Vr x y) = (signum x * x^2) % (x^2 + y^2)
-    -- Note: for our purpose the 0 vector must have a 0° (not 90°) angle with all others.
-    -- Reason: the llP must be the first point in the sorted list, but the vector from
-    -- base to llP is the zero vector, when llP itself is taken as base. See sort below.
+    -- Note: for our purpose the 0 vector must have a 0° (not 90°) angle
+    -- with all others.
+    -- Reason: the llP must be the first point in the sorted list, but the 
+    -- vector from the base to llP is the zero vector, when llP itself is 
+    -- taken as base. See sort below.
 
 -- compare 2 vectors according to their angle with x-axis
 compareVectors :: Vr -> Vr -> Ordering
 compareVectors a b 
-    | pseudoAngleWithX a > pseudoAngleWithX b   = LT -- cosine is decreasing from 0° to 180°
+    | pseudoAngleWithX a > pseudoAngleWithX b   = LT 
+        -- cosine is decreasing from 0° to 180°
     | pseudoAngleWithX a < pseudoAngleWithX b   = GT
     | normSqr a < normSqr b                     = LT
     | normSqr a > normSqr b                     = GT
     | otherwise                                 = EQ
-    -- Note: when 2 vectors have the same angle with x-Axis their norm is compared.
-    -- The final algorithm would not work correctly, if this were omitted.
+    -- Note: when 2 vectors have the same angle with x-Axis 
+    -- their norm is compared. The final algorithm would not work correctly,
+    -- if this were omitted.
 
 -- sort points relative to base and angle with x-axis
 sortPoints :: Pt -> [Pt] -> [Pt]
 sortPoints base ps = sortBy comparePoints ps
-    where comparePoints p1 p2 = compareVectors (vrFromTo base p1) (vrFromTo base p2)
+    where comparePoints p1 p2 = 
+            compareVectors (vrFromTo base p1) (vrFromTo base p2)
 
-{- 3. Step 3 of Graham Scan: Assume that the list of points is sorted according to step 2.
+{- 3. Step 3 of Graham Scan: 
+   Assume that the list of points is sorted according to step 2.
    Build the convex hull by erasing previous points of the hull, 
    which don't yield a left-turn to the new point.
 -}
@@ -128,7 +143,8 @@ convexHullOfSorted ps
     where prevHull = convexHullOfSorted (init ps)
           p = last ps
 
--- Given a list of points, compute its convex hull.
+-- |Given a list of points, compute its convex hull.
+--  Both input and output are described by a point list.
 convexHull :: [Pt] -> [Pt]
 convexHull ps
     | length ps < 2   = ps

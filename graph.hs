@@ -19,6 +19,7 @@ $ ./graph "set1.txt" "set2.txt" "graph.png"
 
 Alternatively, the function generate can be imported 
 in another module and called to generate a graph.
+Or the function generate can be called from ghci.
 -}
 module Graph (
       generate
@@ -27,16 +28,25 @@ module Graph (
 
 import System.IO (FilePath, readFile, writeFile)
 import System.Environment (getArgs)
-import Graphics.Gnuplot.Simple
+import Graphics.Gnuplot.Simple (
+      PlotStyle (PlotStyle, plotType, lineSpec)
+    , PlotType (Points, LinesPoints)
+    , LineSpec (CustomStyle) 
+    , LineAttr (PointType, PointSize, LineTitle, LineWidth)
+    , Attribute (PNG)
+    , plotPathsStyle
+    )
 
 import Utils (stringToIntPairList)
 
+-- style for the point set
 setStyle = PlotStyle 
     { plotType = Points,
       lineSpec = CustomStyle [LineTitle "Points not part of hull",
                               PointType 7,
                               PointSize 1.5]}
 
+-- style for the "hull" (need not be the convex hull, can be any points)
 hullStyle = PlotStyle 
     { plotType = LinesPoints,
       lineSpec = CustomStyle [LineTitle "Hull",
@@ -45,6 +55,9 @@ hullStyle = PlotStyle
                               LineWidth 2]}
 
 
+-- |Generate a graph from the 2 input files. The points of the first 
+--  input file are displayed as points, the points of the second
+--  input file are displayed as a closed curve.
 generate :: FilePath -> FilePath -> FilePath -> IO ()
 generate inFile1 inFile2 outFile = do
     inStr1 <- readFile inFile1
