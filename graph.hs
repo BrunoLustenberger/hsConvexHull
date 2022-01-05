@@ -67,7 +67,8 @@ generate inFile1 inFile2 outFile = do
     plotPathsStyle 
         [PNG outFile] 
         [ (setStyle, set1)
-        , (hullStyle, set2 ++ [head set2]) -- ++ head to get a closed path
+        , (hullStyle, if not (null set2) then set2 ++ [head set2] else set2)
+             -- ++ head to get a closed path
         ]
 
 -- |Main program. The paths of the two input files and the output file
