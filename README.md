@@ -27,7 +27,7 @@ $ ./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt" "testfiles/tc7ss.png"
     -2  1
     -3 3
 ```
-(!testfiles/tc7ss.png)
+![Graph](testfiles/tc7ss.png)
 
 Note: 
 1. Only points with integer coordinates are accepted. This is no restriction of generality, as any finite set of fractional numbers has a lcm of the denominators.
