@@ -1,8 +1,8 @@
 # Convex Hull
 Haskell functions for computing the convex hull of a set of points. 
 The set of points is read from a text file, the resulting convex hull is
-written to a text file. Additionally, a graph showint the points and their
-convex hull is generated
+written to a text file and a graph showing the points and their
+convex hull is generated.
 
 The text of the input file must obey the "point list syntax":
 * First line: the number of points
@@ -17,7 +17,7 @@ Example:
 ```
 $ ./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt" "testfiles/tc7ss.png"
 
-    Input          Output
+    tc7ss.txt      tc7ss.out.txt
     7              4
     0 0            -1 -1
     1 0            2 0
@@ -27,6 +27,8 @@ $ ./main "testfiles/tc7ss.txt" "testfiles/tc7ss.out.txt" "testfiles/tc7ss.png"
     -2  1
     -3 3
 ```
+tc7ss.png
+
 ![Graph](testfiles/tc7ss.png)
 
 Note: 
